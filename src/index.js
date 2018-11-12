@@ -1,3 +1,9 @@
+const body = document.querySelector('body')
+const hWorld = document.createElement('h2')
+hWorld.innerText= `Helloooo`
+const salute = body.appendChild(hWorld)
+
+
 let tick = [
     {
         "symbol": "GBPUSD",
