@@ -1,23 +1,16 @@
-// const items = [1,2,3,2,4,5,6,3,5,6,7,5,5,6,7,1,2,3,2,2,2,1,2]
-var items = [254, 45, 212, 365, 2543];
+// ### Plotly Chart
+var items = [1, 2, 3, 2, 4, 5, 6, 3, 5, 6, 7, 5, 5, 6, 7, 1, 2, 3, 2, 2, 2, 1, 2]
+var items2 = [10, 15, 12, 11, 14];
 
-var item = items[Math.floor(Math.random() * items.length)]
-console.log(random_item(items));
-
-function random_item(items) {
-
-    return items[Math.floor(Math.random() * items.length)];
-
-}
 
 function rand() {
-    return Math.random();
+    return items[Math.floor(Math.random() * items.length)];;
 }
 
 Plotly.plot('graph', [{
-    y: [1]
+    y: [1].map(rand)
 }, {
-    y: [1]
+    y: [1].map(rand)
 }]);
 
 var cnt = 0;
@@ -25,12 +18,12 @@ var cnt = 0;
 var interval = setInterval(function () {
 
     Plotly.extendTraces('graph', {
-        y: [[item], [item]]
+        y: [[rand()], [rand()]]
     }, [0, 1])
     cnt++
-    // console.log(cnt)
-    if (cnt === 2) clearInterval(interval);
+    if (cnt === 10) clearInterval(interval);
 }, 1000);
+// ### End of Chart Code
 
 // FX Rate Functions
 const state = {
