@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
-    <script defer src="src/index.js"></script>
-</head>
-<body>
     
-</body>
+    <script defer src="src/index.js"></script>
+    <script defer src="src/style.css"></script>
+    <script src= "plotly.min.js"></script>
+    </head>
+    <body>
+     
+    <div class="wrapper">
+        <div id="chart"></div>
+        <script>
+            function getData() {
+                return Math.random();
+            }
+            Plotly.plot('chart', [{
+                y: [getData()],
+                type: 'line'
+            }]);
+
+            
+            setInterval(function () {
+                Plotly.extendTraces('chart', { y: [[getData()]] }, [0]);
+            },1000)  
+        </script>
+    </div>
+    </body>
 </html>
