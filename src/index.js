@@ -73,15 +73,10 @@ const fetchDataFromDB = () =>
     fetch('http://localhost:3000/api/v1/price_datas')
         .then(resp => resp.json())
 
-const callPriceDataFromDB = () => 
-    fetchDataFromDB()
-        .then(priceDatas => {
-            state.ticks = priceDatas
-            constructBidArrays(state.ticks)
-            // renderCharts()
-        })
-
+// This is our empty object which will be filled with our price data.
 const bidAskArrays = {}
+
+// This function creates dynamic objects for our prices, with symbol names and bid/asl prices.
 const constructBidArrays = ticks => {
     ticks.forEach(tick => {
 
@@ -96,4 +91,13 @@ const constructBidArrays = ticks => {
         bidAskArrays[tick.symbol + 'ASK'].push(tick.ask)
     })
 }
+
+// Calls on DB data, pushes to state.ticks array, creates objects in bidAskarray.
+const callPriceDataFromDB = () =>
+    fetchDataFromDB()
+        .then(prices => {
+            prices.forEach(price => state.ticks.push(price))
+            constructBidArrays(state.ticks)
+            // renderCharts()
+        })
 
