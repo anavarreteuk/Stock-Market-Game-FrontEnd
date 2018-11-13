@@ -77,37 +77,37 @@ const callPriceDataFromDB = () =>
 
 
 callPriceDataFromDB()
-.then( sequence => {
-// ### Plotly Chart
-let GBPUSDbid = bidAskArrays.GBPUSDBID
-let GBPUSDask = bidAskArrays.GBPUSDASK
+    .then( sequence => {
+    // ### Plotly Chart
+    let GBPUSDbid = bidAskArrays.GBPUSDBID
+    let GBPUSDask = bidAskArrays.GBPUSDASK
 
 
-function chartBid() {
-    return GBPUSDbid[Math.floor(Math.random() * GBPUSDbid.length)];;
-    // Change this to iterate in order [0 - 60] to represent each second.
-}
-function chartAsk() {
-    return GBPUSDask[Math.floor(Math.random() * GBPUSDask.length)];;
-    // Change this to iterate in order [0 - 60] to represent each second.
-}
+    function chartBid(indexEl) {
+        return GBPUSDbid[indexEl];
+        // Change this to iterate in order [0 - 60] to represent each second.
+    }
+    function chartAsk(indexEl) {
+        return GBPUSDask[indexEl];
+        // Change this to iterate in order [0 - 60] to represent each second.
+    }
 
-Plotly.plot('graph', [{
-    y: [GBPUSDbid[0]]
-},
-{
-    y: [GBPUSDask[0]]
-}]);
+    Plotly.plot('graph', [{
+        y: [GBPUSDbid[0]]
+    },
+    {
+        y: [GBPUSDask[0]]
+    }]);
 
-var cnt = 0;
+    let cnt = 0;
+    let interval = setInterval(function () {
 
-var interval = setInterval(function () {
-
-    Plotly.extendTraces('graph', {
-        y: [[chartBid()], [chartAsk()]]
-    }, [0, 1])
-    cnt++
-    if (cnt === 60) clearInterval(interval);
-}, 1000);
+        Plotly.extendTraces('graph', {
+            y: [[chartBid(cnt)], [chartAsk(cnt)]]
+        }, [0, 1])
+        cnt++
+        console.log(GBPUSDask.length)
+        if (cnt >= GBPUSDask.length) clearInterval(interval);
+    }, 250);
 // ### End of Chart Code
 })
