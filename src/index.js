@@ -3,51 +3,43 @@ const hWorld = document.createElement('h2')
 hWorld.innerText= `Helloooo`
 const salute = body.appendChild(hWorld)
 
+// const items = [1,2,3,2,4,5,6,3,5,6,7,5,5,6,7,1,2,3,2,2,2,1,2]
+var items = [254, 45, 212, 365, 2543];
 
-let tick = [
-    {
-        "symbol": "GBPUSD",
-        "bid": 1.28508,
-        "ask": 1.2851,
-        "price": 1.28509,
-        "timestamp": 1542044422
-    },
-    {
-        "symbol": "EURUSD",
-        "bid": 1.12456,
-        "ask": 1.12456,
-        "price": 1.12456,
-        "timestamp": 1542044422
-    },
-    {
-        "symbol": "EURGBP",
-        "bid": 0.87507,
-        "ask": 0.87508,
-        "price": 0.875075,
-        "timestamp": 1542044422
-    },
-    {
-        "symbol": "EURJPY",
-        "bid": 127.943,
-        "ask": 127.945,
-        "price": 127.944,
-        "timestamp": 1542044422
-    },
-    {
-        "symbol": "GBPJPY",
-        "bid": 127.943,
-        "ask": 127.945,
-        "price": 127.944,
-        "timestamp": 1542044422
-    },
-    {
-        "symbol": "USDJPY",
-        "bid": 127.943,
-        "ask": 127.945,
-        "price": 127.944,
-        "timestamp": 1542044422
-    }
-]
+
+var item = items[Math.floor(Math.random() * items.length)]
+console.log(random_item(items));
+
+function random_item(items) {
+
+    return items[Math.floor(Math.random() * items.length)];
+
+}
+
+
+function rand() {
+    return Math.random();
+}
+
+Plotly.plot('graph', [{
+    y: [1]
+}, {
+    y: [1]
+}]);
+
+var cnt = 0;
+
+var interval = setInterval(function () {
+
+    Plotly.extendTraces('graph', {
+        y: [[item], [item]]
+    }, [0, 1])
+    cnt++
+    // console.log(cnt)
+    if (cnt === 2) clearInterval(interval);
+}, 1000);
+
+
 
 
 const state = {
