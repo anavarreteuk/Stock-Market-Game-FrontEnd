@@ -1,30 +1,3 @@
-// ### Plotly Chart
-var items = [1, 2, 3, 2, 4, 5, 6, 3, 5, 6, 7, 5, 5, 6, 7, 1, 2, 3, 2, 2, 2, 1, 2]
-var items2 = [10, 15, 12, 11, 14];
-
-
-function rand() {
-    return items[Math.floor(Math.random() * items.length)];;
-}
-
-Plotly.plot('graph', [{
-    y: [1].map(rand)
-}, {
-    y: [1].map(rand)
-}]);
-
-var cnt = 0;
-
-var interval = setInterval(function () {
-
-    Plotly.extendTraces('graph', {
-        y: [[rand()], [rand()]]
-    }, [0, 1])
-    cnt++
-    if (cnt === 10) clearInterval(interval);
-}, 1000);
-// ### End of Chart Code
-
 // FX Rate Functions
 const state = {
     ticks: [],
@@ -101,3 +74,40 @@ const callPriceDataFromDB = () =>
             // renderCharts()
         })
 
+
+
+callPriceDataFromDB()
+    .then( sequence => {
+    // ### Plotly Chart
+    let GBPUSDbid = bidAskArrays.GBPUSDBID
+    let GBPUSDask = bidAskArrays.GBPUSDASK
+
+
+    function chartBid(indexEl) {
+        return GBPUSDbid[indexEl];
+        // Change this to iterate in order [0 - 60] to represent each second.
+    }
+    function chartAsk(indexEl) {
+        return GBPUSDask[indexEl];
+        // Change this to iterate in order [0 - 60] to represent each second.
+    }
+
+    Plotly.plot('graph', [{
+        y: [GBPUSDbid[0]]
+    },
+    {
+        y: [GBPUSDask[0]]
+    }]);
+
+    let cnt = 0;
+    let interval = setInterval(function () {
+
+        Plotly.extendTraces('graph', {
+            y: [[chartBid(cnt)], [chartAsk(cnt)]]
+        }, [0, 1])
+        cnt++
+        console.log(GBPUSDask.length)
+        if (cnt >= GBPUSDask.length) clearInterval(interval);
+    }, 250);
+// ### End of Chart Code
+})
