@@ -78,11 +78,18 @@ function createPlot(plotName, plotData) {
     Plotly.plot(plotName, plotData);
 }
 
-function bid (cnt) {
+function buy (cnt) {
     Plotly.extendTraces('graph1', {
         y: [[bidAskArrays.GBPUSDASK[cnt]]],
         x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()]]
     }, [2])
+}
+
+function sell(cnt) {
+    Plotly.extendTraces('graph1', {
+        y: [[bidAskArrays.GBPUSDBID[cnt]]],
+        x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()]]
+    }, [3])
 }
 
 callPriceDataFromDB()
@@ -90,20 +97,25 @@ callPriceDataFromDB()
     // ### Plotly Chart
     let GBPUSDbid = bidAskArrays.GBPUSDBID
     let GBPUSDask = bidAskArrays.GBPUSDASK
+    let EURUSDbid = bidAskArrays.EURUSDBID
+    let EURUSDask = bidAskArrays.EURUSDASK
+    let EURGBPbid = bidAskArrays.EURGBPBID
+    let EURGBPask = bidAskArrays.EURGBPASK
+    let EURJPYbid = bidAskArrays.EURJPYBID
+    let EURJPYask = bidAskArrays.EURJPYASK
 
 
     function chartBid(indexEl) {
         return GBPUSDbid[indexEl];
-        // Change this to iterate in order [0 - 60] to represent each second.
     }
     function chartAsk(indexEl) {
         return GBPUSDask[indexEl];
-        // Change this to iterate in order [0 - 60] to represent each second.
     }
 
     const data = [{
         x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
         y: [GBPUSDbid[0]],
+        // We need to make this y axis data dynamic for diff currencies
         name: 'Bid'
     },
     {
@@ -114,7 +126,13 @@ callPriceDataFromDB()
     {
         x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
         y: [GBPUSDask[0]],
-        name: 'Buy',
+        name: 'Buy',.
+        mode: 'markers'
+    },
+    {
+        x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+        y: [GBPUSDbid[0]],
+        name: 'Sell',
         mode: 'markers'
     }]
 
@@ -122,15 +140,24 @@ callPriceDataFromDB()
     createPlot('graph2', data)
 
     let cnt = 0;
-    let interval = setInterval(function () {
+    let interval1 = setInterval(function () {
 
         Plotly.extendTraces('graph1', {
             x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
             y: [[chartBid(cnt)], [chartAsk(cnt)]]
         }, [0, 1])
         cnt++
-        console.log(GBPUSDask.length)
-        if (cnt >= GBPUSDask.length) clearInterval(interval);
+        if (cnt >= GBPUSDask.length) clearInterval(interval1);
+    }, 1000);
+
+    let interval2 = setInterval(function () {
+
+        Plotly.extendTraces('graph2', {
+            x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
+            y: [[chartBid(cnt)], [chartAsk(cnt)]]
+        }, [0, 1])
+        cnt++
+        if (cnt >= EURJPYask.length) clearInterval(interval2);
     }, 1000);
 // ### End of Chart Code
 })
