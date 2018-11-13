@@ -35,11 +35,9 @@ var interval = setInterval(function () {
 // FX Rate Functions
 const state = {
     ticks: [],
-    difficulty: 'hard',
+    difficulty: 'normal',
     levels: {
-        easy: 'GBPUSD,EURUSD',
-        medium: 'GBPUSD,EURUSD,EURGBP,EURJPY',
-        hard: 'GBPUSD,EURUSD,EURGBP,EURJPY,GBPJPY,USDJPY'
+        normal: 'GBPUSD,EURUSD,EURGBP,EURJPY'
     }
 }
 
@@ -76,3 +74,33 @@ const loop = () => {
 }
 
 loop()
+
+// The following are for calling pre-existing stored data from the DB rather than external API.
+const fetchDataFromDB = () => 
+    fetch('http://localhost:3000/api/v1/price_datas')
+        .then(resp => resp.json())
+
+const callPriceDataFromDB = () => 
+    fetchDataFromDB()
+        .then(priceDatas => {
+            state.ticks = priceDatas
+            constructBidArrays(state.ticks)
+            // renderCharts()
+        })
+
+const bidAskArrays = {}
+const constructBidArrays = ticks => {
+    ticks.forEach(tick => {
+
+        if (bidAskArrays[tick.symbol + 'BID'] === undefined) {
+            bidAskArrays[tick.symbol + 'BID'] = []
+        }
+        if (bidAskArrays[tick.symbol + 'ASK'] === undefined) {
+            bidAskArrays[tick.symbol + 'ASK'] = []
+        }
+
+        bidAskArrays[tick.symbol + 'BID'].push(tick.bid)
+        bidAskArrays[tick.symbol + 'ASK'].push(tick.ask)
+    })
+}
+
