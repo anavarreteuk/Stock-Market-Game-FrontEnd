@@ -466,7 +466,12 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+         const body = document.querySelector('body')
+            setTimeout(function () {
+                body.remove()
+            }, 60000)
 
+       
         const svgContainer = document.getElementsByClassName('svg-container')
         const containers = [...svgContainer]
         
@@ -488,3 +493,5 @@ const generateBtn = (index) => {
 
     return buttonContainer;
 }
+
+setTimeout(60000)
