@@ -61,3 +61,17 @@ html, body{background : rgb(88, 157, 235); font-family : Roboto; height: 100%; w
 .button:active { /*Clicked and held*/
   box-shadow: 0px 5px 6px rgba(0,0,0,0.3);
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+#grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}

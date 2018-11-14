@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 // FX Rate Functions
 const state = {
     ticks: [],
@@ -27,8 +16,13 @@ const saveTick = () => getTick().then(tick => state.ticks.push(...tick))
 const postData = priceData =>
     fetch('http://localhost:3000/api/v1/price_datas', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ price_data: priceData })
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            price_data: priceData
+        })
     }).then(resp => resp.json())
 
 // setInterval(saveTick, 1000) - Run to start generating the data and storing to our 'state.ticks' array.
@@ -53,9 +47,9 @@ const loop = () => {
 loop()
 
 // The following are for calling pre-existing stored data from the DB rather than external API.
-const fetchDataFromDB = () => 
+const fetchDataFromDB = () =>
     fetch('http://localhost:3000/api/v1/price_datas')
-        .then(resp => resp.json())
+    .then(resp => resp.json())
 
 // This is our empty object which will be filled with our price data.
 const bidAskArrays = {}
@@ -79,112 +73,189 @@ const constructBidArrays = ticks => {
 // Calls on DB data, pushes to state.ticks array, creates objects in bidAskarray.
 const callPriceDataFromDB = () =>
     fetchDataFromDB()
-        .then(prices => {
-            prices.forEach(price => state.ticks.push(price))
-            constructBidArrays(state.ticks)
-            // renderCharts()
-        })
+    .then(prices => {
+        prices.forEach(price => state.ticks.push(price))
+        constructBidArrays(state.ticks)
+        // renderCharts()
+    })
 
 function createPlot(plotName, plotData, layout) {
     Plotly.plot(plotName, plotData, layout);
 }
 
-function buy (cnt) {
+function buy(cnt) {
     Plotly.extendTraces('graph1', {
-        y: [[bidAskArrays.GBPUSDASK[cnt]]],
-        x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()]]
+        y: [
+            [bidAskArrays.GBPUSDASK[cnt]]
+        ],
+        x: [
+            [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]
+        ]
     }, [2])
 }
 
 function sell(cnt) {
     Plotly.extendTraces('graph1', {
-        y: [[bidAskArrays.GBPUSDBID[cnt]]],
-        x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()]]
+        y: [
+            [bidAskArrays.GBPUSDBID[cnt]]
+        ],
+        x: [
+            [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]
+        ]
     }, [3])
 }
 
 callPriceDataFromDB()
     .then(() => {
-    // ### Plotly Chart
-    let GBPUSDbid = bidAskArrays.GBPUSDBID
-    let GBPUSDask = bidAskArrays.GBPUSDASK
-    let EURUSDbid = bidAskArrays.EURUSDBID
-    let EURUSDask = bidAskArrays.EURUSDASK
-    let EURGBPbid = bidAskArrays.EURGBPBID
-    let EURGBPask = bidAskArrays.EURGBPASK
-    let EURJPYbid = bidAskArrays.EURJPYBID
-    let EURJPYask = bidAskArrays.EURJPYASK
+        // ### Plotly Chart
+        let GBPUSDbid = bidAskArrays.GBPUSDBID
+        let GBPUSDask = bidAskArrays.GBPUSDASK
+        let EURUSDbid = bidAskArrays.EURUSDBID
+        let EURUSDask = bidAskArrays.EURUSDASK
+        let EURGBPbid = bidAskArrays.EURGBPBID
+        let EURGBPask = bidAskArrays.EURGBPASK
+        let EURJPYbid = bidAskArrays.EURJPYBID
+        let EURJPYask = bidAskArrays.EURJPYASK
 
+        // GBPUSD price data arrays
+        function chartBid1(indexEl) {
+            return GBPUSDbid[indexEl];
+        }
 
-    function chartBid(indexEl) {
-        return GBPUSDbid[indexEl];
-    }
-    function chartAsk(indexEl) {
-        return GBPUSDask[indexEl];
-    }
-
+        function chartAsk1(indexEl) {
+            return GBPUSDask[indexEl];
+        } // EURUSD price data arrays
         function chartBid2(indexEl) {
             return EURUSDbid[indexEl];
         }
+
         function chartAsk2(indexEl) {
             return EURUSDask[indexEl];
+        } // EURGBP price data arrays
+        function chartBid3(indexEl) {
+            return EURGBPbid[indexEl];
         }
 
-    const data = [{
-        x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-        y: [GBPUSDbid[0]],
-        // We need to make this y axis data dynamic for diff currencies
-        name: 'Bid'
-    },
-    {
-        x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-        y: [GBPUSDask[0]],
-        name: 'Ask'
-    },
-    {
-        x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-        y: [GBPUSDask[0]],
-        name: 'Buy',
-        mode: 'markers'
-    },
-    {
-        x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-        y: [GBPUSDbid[0]],
-        name: 'Sell',
-        mode: 'markers'
-    }]
-    
-   
-    
+        function chartAsk3(indexEl) {
+            return EURGBPask[indexEl];
+        } // EURJPY price data arrays
+        function chartBid4(indexEl) {
+            return EURJPYbid[indexEl];
+        }
+
+        function chartAsk4(indexEl) {
+            return EURJPYask[indexEl];
+        }
+
+        // GBPUSD Starting price point
+        const data1 = [{
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [GBPUSDbid[0]],
+                // We need to make this y axis data dynamic for diff currencies
+                name: 'Bid'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [GBPUSDask[0]],
+                name: 'Ask'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [GBPUSDask[0]],
+                name: 'Buy',
+                mode: 'markers'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [GBPUSDbid[0]],
+                name: 'Sell',
+                mode: 'markers'
+            }
+        ]
+
+        // EURUSD Starting price point
         const data2 = [{
-            x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-            y: [EURUSDbid[0]],
-            // We need to make this y axis data dynamic for diff currencies
-            name: 'Bid'
-        },
-        {
-            x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-            y: [EURUSDask[0]],
-            name: 'Ask'
-        },
-        {
-            x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-            y: [EURUSDask[0]],
-            name: 'Buy',
-            mode: 'markers'
-        },
-        {
-            x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
-            y: [EURUSDbid[0]],
-            name: 'Sell',
-            mode: 'markers'
-        }]
-        
-        var layout = {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURUSDbid[0]],
+                // We need to make this y axis data dynamic for diff currencies
+                name: 'Bid'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURUSDask[0]],
+                name: 'Ask'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURUSDask[0]],
+                name: 'Buy',
+                mode: 'markers'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURUSDbid[0]],
+                name: 'Sell',
+                mode: 'markers'
+            }
+        ]
+
+        // EURGBP Starting price point
+        const data3 = [{
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURGBPbid[0]],
+                // We need to make this y axis data dynamic for diff currencies
+                name: 'Bid'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURGBPask[0]],
+                name: 'Ask'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURGBPask[0]],
+                name: 'Buy',
+                mode: 'markers'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURGBPbid[0]],
+                name: 'Sell',
+                mode: 'markers'
+            }
+        ]
+
+        // EURJPY Starting price point
+        const data4 = [{
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURJPYbid[0]],
+                // We need to make this y axis data dynamic for diff currencies
+                name: 'Bid'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURJPYask[0]],
+                name: 'Ask'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURJPYask[0]],
+                name: 'Buy',
+                mode: 'markers'
+            },
+            {
+                // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                y: [EURJPYbid[0]],
+                name: 'Sell',
+                mode: 'markers'
+            }
+        ]
+
+        var layout1 = {
             title: "GBP/USD",
             autosize: false,
-            width: 900,
-            height: 400,
+            width: 720,
+            height: 385,
             margin: {
                 l: 70,
                 r: 50,
@@ -194,37 +265,138 @@ callPriceDataFromDB()
             },
             paper_bgcolor: '#c7c7c7',
             plot_bgcolor: '#FFFFFF'
-        };  
-    createPlot('graph1', data, layout )
-    createPlot('graph2', data2, layout)
-    
-    
-     tester = () => {   
-    let cnt = 0;
-    let interval1 = setInterval(function () {
+        };
 
-        Plotly.extendTraces('graph1', {
-            x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
-            y: [[chartBid(cnt)], [chartAsk(cnt)]]
-        }, [0, 1])
-        cnt++
-        if (cnt >= GBPUSDask.length) clearInterval(interval1);
-    }, 1000);
+        var layout2 = {
+            title: "EUR/USD",
+            autosize: false,
+            width: 720,
+            height: 385,
+            margin: {
+                l: 70,
+                r: 50,
+                b: 100,
+                t: 100,
+                pad: 4
+            },
+            paper_bgcolor: '#c7c7c7',
+            plot_bgcolor: '#FFFFFF'
+        };
 
-    let interval2 = setInterval(function () {
+        var layout3 = {
+            title: "EUR/GBP",
+            autosize: false,
+            width: 720,
+            height: 385,
+            margin: {
+                l: 70,
+                r: 50,
+                b: 100,
+                t: 100,
+                pad: 4
+            },
+            paper_bgcolor: '#c7c7c7',
+            plot_bgcolor: '#FFFFFF'
+        };
 
-        Plotly.extendTraces('graph2', {
-            x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
-            y: [[chartBid2(cnt)], [chartAsk2(cnt)]]
-        }, [0, 1])
-        cnt++
-        if (cnt >= EURUSDask.length) clearInterval(interval2);
-    }, 1000);}
+        var layout4 = {
+            title: "EUR/JPY",
+            autosize: false,
+            width: 720,
+            height: 385,
+            margin: {
+                l: 70,
+                r: 50,
+                b: 100,
+                t: 100,
+                pad: 4
+            },
+            paper_bgcolor: '#c7c7c7',
+            plot_bgcolor: '#FFFFFF'
+        };
+
+        createPlot('graph1', data1, layout1)
+        createPlot('graph2', data2, layout2)
+        createPlot('graph3', data3, layout3)
+        createPlot('graph4', data4, layout4)
+
+        // tester = () => {   
+        let cnt1 = 0;
+        let cnt2 = 0;
+        let cnt3 = 0;
+        let cnt4 = 0;
+
+        // GBPUSD Continuous chart plots
+        console.log(GBPUSDask.length)
+        let interval1 = setInterval(() => {
+            // console.log('time: ',time)
+            Plotly.extendTraces('graph1', {
+                // x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
+                y: [
+                    [chartBid1(cnt1)],
+                    [chartAsk1(cnt1)]
+                ]
+            }, [0, 1])
+            cnt1 += 1
+            if (cnt1 >= GBPUSDask.length) clearInterval(interval1)
+        }, 250);
+
+        // EURUSD Continuous chart plots
+        let interval2 = setInterval(function () {
+
+            Plotly.extendTraces('graph2', {
+                // x: [
+                //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()],
+                //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()]
+                // ],
+                y: [
+                    [chartBid2(cnt2)],
+                    [chartAsk2(cnt2)]
+                ]
+            }, [0, 1])
+            cnt2 += 1
+            if (cnt2 >= EURUSDask.length) clearInterval(interval2);
+        }, 250);
+
+        // EURGBP Continuous chart plots
+        let interval3 = setInterval(function () {
+
+            Plotly.extendTraces('graph3', {
+                // x: [
+                //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()],
+                //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()]
+                // ],
+                y: [
+                    [chartBid3(cnt3)],
+                    [chartAsk3(cnt3)]
+                ]
+            }, [0, 1])
+            cnt3 += 1
+            if (cnt3 >= EURGBPask.length) clearInterval(interval3);
+        }, 250);
+
+        // EURJPY Continuous chart plots
+        let interval4 = setInterval(function () {
+
+            Plotly.extendTraces('graph4', {
+                // x: [
+                //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()],
+                //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()]
+                // ],
+                y: [
+                    [chartBid4(cnt4)],
+                    [chartAsk4(cnt4)]
+                ]
+            }, [0, 1])
+            cnt4 += 1
+            if (cnt4 >= EURJPYask.length) clearInterval(interval4);
+        }, 250);
+        // }
+    })
 // ### End of Chart Code
-})
 
-const startButton = document.getElementById("startButton")
- startButton.addEventListener('click', event => {
-tester()
-startButton.remove()
-})
+// const startButton = document.getElementById("startButton")
+//  startButton.addEventListener('click', event => {
+// tester()
+// startButton.remove()
+// })
