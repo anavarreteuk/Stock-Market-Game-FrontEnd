@@ -19,22 +19,26 @@ html, body{background : rgb(88, 157, 235); font-family : Roboto; height: 100%; w
 .button {
   background: #3D4C53;
   margin : 20px auto;
-  width : 260px;
-  height : 80px;
+  width : 220px;
+  height : 70px;
   overflow: hidden;
-  padding-top: 35px;
+  position:absolute;
+    font-size: 15pt;
+    top: 40%;
+    right: 10%;
+  padding-top: 5px;
   text-align : center;
   transition : .2s;
   cursor : pointer;
-  border-radius: 3px;
+  border-radius: 10px;
   box-shadow: 0px 1px 2px rgba(0,0,0,.2);
 }
 .btnTwo {
   position : relative;
-  width : 260px;
+  width : 230px;
   height : 150px;
-  margin-top: -100px;
-  padding-top: 25px;
+  margin-top: -107px;
+  padding-top: 1px;
   background : #26A69A;
   left : -250px;
   transition : .3s;
