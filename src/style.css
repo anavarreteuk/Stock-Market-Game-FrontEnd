@@ -80,3 +80,23 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
   text-align: center;
   color: #FFF;
 }
+
+.buy-btn {
+  position: absolute;
+  background-color: green;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 325px;
+  top: 320px;
+}
+
+.sell-btn {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 375px;
+  top: 320px;
+}

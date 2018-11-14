@@ -150,24 +150,24 @@ function tete () {
 
             // GBPUSD Starting price point
             const data1 = [{
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [GBPUSDbid[0]],
                     // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [GBPUSDask[0]],
                     name: 'Ask'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [GBPUSDask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [GBPUSDbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -176,24 +176,24 @@ function tete () {
 
             // EURUSD Starting price point
             const data2 = [{
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURUSDbid[0]],
                     // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURUSDask[0]],
                     name: 'Ask'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURUSDask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURUSDbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -202,24 +202,24 @@ function tete () {
 
             // EURGBP Starting price point
             const data3 = [{
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURGBPbid[0]],
                     // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURGBPask[0]],
                     name: 'Ask'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURGBPask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURGBPbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -228,24 +228,24 @@ function tete () {
 
             // EURJPY Starting price point
             const data4 = [{
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURJPYbid[0]],
                     // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURJPYask[0]],
                     name: 'Ask'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURJPYask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
                     y: [EURJPYbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -332,10 +332,10 @@ function tete () {
             let interval1 = setInterval(() => {
                 // console.log('time: ',time)
                 Plotly.extendTraces('graph1', {
-                    x: [
-                        [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()],
-                        [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()]
-                    ],
+                    // x: [
+                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()],
+                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()]
+                    // ],
                     y: [
                         [chartBid1(cnt1)],
                         [chartAsk1(cnt1)]
@@ -349,10 +349,10 @@ function tete () {
             let interval2 = setInterval(function () {
 
                 Plotly.extendTraces('graph2', {
-                    x: [
-                        [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()],
-                        [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()]
-                    ],
+                    // x: [
+                    //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()],
+                    //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()]
+                    // ],
                     y: [
                         [chartBid2(cnt2)],
                         [chartAsk2(cnt2)]
@@ -366,10 +366,10 @@ function tete () {
             let interval3 = setInterval(function () {
 
                 Plotly.extendTraces('graph3', {
-                    x: [
-                        [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()],
-                        [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()]
-                    ],
+                    // x: [
+                    //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()],
+                    //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()]
+                    // ],
                     y: [
                         [chartBid3(cnt3)],
                         [chartAsk3(cnt3)]
@@ -383,10 +383,10 @@ function tete () {
             let interval4 = setInterval(function () {
 
                 Plotly.extendTraces('graph4', {
-                    x: [
-                        [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()],
-                        [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()]
-                    ],
+                    // x: [
+                    //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()],
+                    //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()]
+                    // ],
                     y: [
                         [chartBid4(cnt4)],
                         [chartAsk4(cnt4)]
@@ -395,8 +395,29 @@ function tete () {
                 cnt4 += 1
                 if (cnt4 >= EURJPYask.length) clearInterval(interval4);
             }, 250);
+         
+        // ######### MORNING NOTES ###############
+        // We cannot call the buy(cnt) function at the moment, it returns an error.
+        // We need to figure out where in the scope our button event listeners will sit.
+        // We also need to calculate the profit/loss once we get the buy/sell working so we can calculate players scores.
+        // Create a login and leaderboard
+
+        // BUY/SELL EVENT LISTENERS - START OF CODE
+        const buy1Listener = document.addEventListener('click', event => {
+            if (event.target.dataset.id === `graph0-buy`) {
+                console.log(buy(cnt1))
+            }
+        })
+        const sell1Listener = document.addEventListener('click', event => {
+            if (event.target.dataset.id === `graph0-sell`) {
+                console.log(`${event.target.dataset.id}`)
+            }
+        })
+        // ### BUY/SELL EVENT LISTENERS - END OF CODE ###
         }
     })
+
+    
 }
 // ### END OF CHART CODE ###
 
@@ -445,5 +466,25 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+
+        const svgContainer = document.getElementsByClassName('svg-container')
+        const containers = [...svgContainer]
+        
+        containers.forEach((el, index) => el.appendChild(generateBtn(index)))
     })
 })
+
+const generateBtn = (index) => {
+    const buttonContainer = document.createElement('div')
+    buttonContainer.innerHTML = `
+            <button class='buy-btn' data-id='graph${index}-buy'>
+                Buy
+            </button>
+            <br/>
+            <button class='sell-btn' data-id='graph${index}-sell'>
+                Sell
+            </button>
+        `;
+
+    return buttonContainer;
+}
