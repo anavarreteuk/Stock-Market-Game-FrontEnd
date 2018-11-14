@@ -81,8 +81,8 @@ function tete () {
             // renderCharts()
         })
 
-    function createPlot(plotName, plotData, layout) {
-        Plotly.plot(plotName, plotData, layout);
+    function createPlot(plotName, plotData, layout)  {
+        Plotly.plot(plotName, plotData, layout,{displayModeBar: false});
     }
 
     function buy(cnt) {
@@ -317,10 +317,10 @@ function tete () {
                 plot_bgcolor: '#FFFFFF'
             };
 
-            createPlot('graph1', data1, layout1)
-            createPlot('graph2', data2, layout2)
-            createPlot('graph3', data3, layout3)
-            createPlot('graph4', data4, layout4)
+            createPlot('graph1', data1, layout1, { displayModeBar: false })
+            createPlot('graph2', data2, layout2, { displayModeBar: false })
+            createPlot('graph3', data3, layout3, { displayModeBar: false })
+            createPlot('graph4', data4, layout4, { displayModeBar: false })
 
             tester = () => {   
             let cnt1 = 0;
