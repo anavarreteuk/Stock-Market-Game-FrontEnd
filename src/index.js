@@ -70,7 +70,7 @@ const constructBidArrays = ticks => {
     })
 }
 
-
+// START OF OUR CHART CODE.
 // Calls on DB data, pushes to state.ticks array, creates objects in bidAskarray.
 function tete () {
     const callPriceDataFromDB = () =>
@@ -78,7 +78,6 @@ function tete () {
         .then(prices => {
             prices.forEach(price => state.ticks.push(price))
             constructBidArrays(state.ticks)
-            // renderCharts()
         })
 
     function createPlot(plotName, plotData, layout)  {
@@ -333,7 +332,10 @@ function tete () {
             let interval1 = setInterval(() => {
                 // console.log('time: ',time)
                 Plotly.extendTraces('graph1', {
-                    // x: [[new Date(Date(state.ticks[cnt])).toLocaleTimeString()], [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]],
+                    // x: [
+                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()],
+                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()]
+                    // ],
                     y: [
                         [chartBid1(cnt1)],
                         [chartAsk1(cnt1)]
@@ -393,25 +395,58 @@ function tete () {
                 cnt4 += 1
                 if (cnt4 >= EURJPYask.length) clearInterval(interval4);
             }, 250);
+         
+        // ######### MORNING NOTES ###############
+        // We cannot call the buy(cnt) function at the moment, it returns an error.
+        // We need to figure out where in the scope our button event listeners will sit.
+        // We also need to calculate the profit/loss once we get the buy/sell working so we can calculate players scores.
+        // Create a login and leaderboard
+
+        // BUY/SELL EVENT LISTENERS - START OF CODE
+        const buy1Listener = document.addEventListener('click', event => {
+            if (event.target.dataset.id === `graph0-buy`) {
+                console.log(buy(cnt1))
+            }
+        })
+        const sell1Listener = document.addEventListener('click', event => {
+            if (event.target.dataset.id === `graph0-sell`) {
+                console.log(`${event.target.dataset.id}`)
+            }
+        })
+        // ### BUY/SELL EVENT LISTENERS - END OF CODE ###
         }
     })
-}
-// ### End of Chart Code
 
+    
+}
+// ### END OF CHART CODE ###
+
+// INTRO PAGE AND NAME SUBMISSION FORM.
 const formDiv = document.createElement('div')
 formDiv.setAttribute('id', 'FormDiv')
-formDiv.innerHTML = `<h3 id='firstText'>hjagsdfhasgdfykagsdhfjagsdjkhf
-asdkjfbasjkdfhakjsdhfkjadhsfjk
-aksjdfhakjsdfhkjasdkfjajhaksdfsadfgfasg
-ajksdhfkajsdfhjasdfhakjs
-askjdfhajksdfhajksdhkfsdkfas,jdfnjasdfj,sadfhj
-askjdnfkjasdfkljasdjfklasjdfk
-</h3>
-<form id='startForm'>
- Please Insert Your Name:<br>
-  <input type="text" name="firstname"><br>
-</form>
-<button id='submitButton'>submit</button>`
+formDiv.innerHTML = `
+    <h1 id='firstText'>
+    FX TRADER 
+    </h1>
+    <h3>
+        Welcome to our FX trading game.
+    </h3>
+    <h4>
+        <p>You have 1 minute to make as much money as you can buying and selling currencies.</p>
+        <p>There are 4 currency crosses to choose from, GBP/USD, EUR/USD, EUR/GBP and EUR/JPY.</p>
+        <p>See how well you can do. At the end you're name will be added to the leaderboard... Good Luck!</p>
+    </h4>
+    <h5>
+        <em>Created by Adrian N and Oliver DS.</em>
+    </h5>
+    <form id='startForm'>
+        <br>
+            <p>Please Insert Your Name:</p>
+            <input type="text" name="firstname">
+        <br>
+    </form>
+    <button id='submitButton'>submit</button>`
+
 document.body.appendChild(formDiv)
 
 const submitButton = document.getElementById('submitButton')
@@ -431,5 +466,25 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+
+        const svgContainer = document.getElementsByClassName('svg-container')
+        const containers = [...svgContainer]
+        
+        containers.forEach((el, index) => el.appendChild(generateBtn(index)))
     })
 })
+
+const generateBtn = (index) => {
+    const buttonContainer = document.createElement('div')
+    buttonContainer.innerHTML = `
+            <button class='buy-btn' data-id='graph${index}-buy'>
+                Buy
+            </button>
+            <br/>
+            <button class='sell-btn' data-id='graph${index}-sell'>
+                Sell
+            </button>
+        `;
+
+    return buttonContainer;
+}
