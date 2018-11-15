@@ -1,5 +1,6 @@
 // FX Rate Functions
 const state = {
+
     ticks: [],
     buys: {
         GBPUSD: [],
@@ -85,7 +86,7 @@ const constructBidArrays = ticks => {
 
 // START OF OUR CHART CODE.
 // Calls on DB data, pushes to state.ticks array, creates objects in bidAskarray.
-function tete () {
+function startBuildingCharts () {
     const callPriceDataFromDB = () =>
         fetchDataFromDB()
         .then(prices => {
@@ -511,17 +512,26 @@ formDiv.innerHTML = `
     <form id='startForm'>
         <br>
             <p>Please Insert Your Name:</p>
-            <input type="text" name="firstname">
+            <input id='name' type="text" name="firstname">
         <br>
     </form>
     <button id='submitButton'>submit</button>`
+
+      
 
 document.body.appendChild(formDiv)
 
 const submitButton = document.getElementById('submitButton')
 submitButton.addEventListener('click', event => {
 
-    tete()
+    // Posting the name and score
+    let startFormNameValue = document.querySelector('#name').value
+    
+    state.name.push(startFormNameValue)
+    postNameScore(state.name[0])
+    console.log(state.name)
+
+    startBuildingCharts()
     const readyButton = document.getElementById('holder')
     readyButton.innerHTML = `<div id = "startButton" class="button">
         <p id="startButton" class="btnText">READY?</p>
@@ -531,13 +541,16 @@ submitButton.addEventListener('click', event => {
         </div >`
     document.body.appendChild(readyButton)
     formDiv.remove()
+    
     const startButton = document.getElementById("startButton")
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
 
+
         const containerNodes = document.getElementsByClassName('js-plotly-plot')
         const containers = [...containerNodes]
+
         
         containers.forEach((el) => el.appendChild(generateBtn(el.id)))
     })
@@ -553,8 +566,26 @@ const generateBtn = (ccy) => {
             <br/>
             <button class='sell-btn' data-id='${ccy}-sell'>
                 Sell
-            </button>
-        `;
+            </button>`
+
+    return buttonContainer
+}
+ 
+const postNameScore = (name) =>
+    fetch('http://localhost:3000/api/v1/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            
+            username: name,
+            
+            
+        })
+    }).then(resp => resp.json())
+
 
     return buttonContainer;
 }
@@ -644,4 +675,44 @@ const getFinalScore = () => {
     const grandTotalScore = (totalGBPUSD + totalEURUSD + totalEURGBP + totalEURJPY)
     state.score = grandTotalScore
 }
+
+
+    function createTable () {
+    const a = document.createElement('div')
+    a.innerHTML = `<div class="table-title">
+    <h3>LeaderBoard</h3>
+    </div>
+    <table class="table-fill">
+    <thead>
+    <tr>
+    <th class="text-left">Name</th>
+    <th class="text-left">Score</th>
+    </tr>
+    </thead>
+    <tbody class="table-hover">
+    <tr>
+    <td class="text-left">Januadsfary</td>
+    <td class="text-left">$ 50,dd000.00</td>
+    </tr>
+    <tr>
+    <td class="text-left">February</td>
+    <td class="text-left">$ 10,000.00</td>
+    </tr>
+    <tr>
+    <td class="text-left">March</td>
+    <td class="text-left">$ 85,000.00</td>
+    </tr>
+    <tr>
+    <td class="text-left">April</td>
+    <td class="text-left">$ 56,000.00</td>
+    </tr>
+    <tr>
+    <td class="text-left">May</td>
+    <td class="text-left">$ 98,000.00</td>
+    </tr>
+    </tbody>
+    </table>`
+    document.querySelector('body').appendChild(a)
+    return a
+    }
 
