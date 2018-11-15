@@ -71,7 +71,7 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
 #grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 10px;
+  padding: 0px;
   font-size: 30px;
   text-align: center;
 }
@@ -81,7 +81,11 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
   color: #FFF;
 }
 
-.buy-btn {
+#buttonDiv {
+  block-size: 0px;
+}
+
+[data-id=GBPUSD-buy] {
   position: absolute;
   background-color: green;
   width: 50px;
@@ -91,7 +95,7 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
   top: 320px;
 }
 
-.sell-btn {
+[data-id=GBPUSD-sell] {
   position: absolute;
   background-color: red;
   width: 50px;
@@ -99,4 +103,64 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
   font-size: 11pt;
   left: 375px;
   top: 320px;
+}
+
+[data-id=EURUSD-buy] {
+  position: absolute;
+  background-color: green;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 1040px;
+  top: 320px;
+}
+
+[data-id=EURUSD-sell] {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 1090px;
+  top: 320px;
+}
+
+[data-id=EURGBP-buy] {
+  position: absolute;
+  background-color: green;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 325px;
+  bottom: 40px;
+}
+
+[data-id=EURGBP-sell] {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 375px;
+  bottom: 40px;
+}
+
+[data-id=EURJPY-buy] {
+  position: absolute;
+  background-color: green;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 1040px;
+  bottom: 40px;
+}
+
+[data-id=EURJPY-sell] {
+  position: absolute;
+  background-color: red;
+  width: 50px;
+  height: 25px;
+  font-size: 11pt;
+  left: 1090px;
+  bottom: 40px;
 }
