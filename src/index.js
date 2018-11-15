@@ -92,7 +92,7 @@ function startBuildingCharts () {
                 [bidAskArrays.GBPUSDASK[cnt]]
             ],
             x: [
-                [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]
+                [new Date(Date(state.ticks[cnt])).getSeconds()]
             ]
         }, [2])
     }
@@ -103,7 +103,7 @@ function startBuildingCharts () {
                 [bidAskArrays.GBPUSDBID[cnt]]
             ],
             x: [
-                [new Date(Date(state.ticks[cnt])).toLocaleTimeString()]
+                [new Date(Date(state.ticks[cnt])).getSeconds()]
             ]
         }, [3])
     }
@@ -152,24 +152,24 @@ function startBuildingCharts () {
 
             // GBPUSD Starting price point
             const data1 = [{
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [new Date(Date(state.ticks[0])).getSeconds()],
                     y: [GBPUSDbid[0]],
                     // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [new Date(Date(state.ticks[0])).getSeconds()],
                     y: [GBPUSDask[0]],
                     name: 'Ask'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [new Date(Date(state.ticks[0])).getSeconds()],
                     y: [GBPUSDask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [new Date(Date(state.ticks[0])).getSeconds()],
                     y: [GBPUSDbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -334,10 +334,10 @@ function startBuildingCharts () {
             let interval1 = setInterval(() => {
                 // console.log('time: ',time)
                 Plotly.extendTraces('graph1', {
-                    // x: [
-                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()],
-                    //     [new Date(Date(state.ticks[cnt1])).toLocaleTimeString()]
-                    // ],
+                    x: [
+                        [new Date(Date(state.ticks[cnt1])).getSeconds()],
+                        [new Date(Date(state.ticks[cnt1])).getSeconds()]
+                    ],
                     y: [
                         [chartBid1(cnt1)],
                         [chartAsk1(cnt1)]
@@ -345,7 +345,7 @@ function startBuildingCharts () {
                 }, [0, 1])
                 cnt1 += 1
                 if (cnt1 >= GBPUSDask.length) clearInterval(interval1)
-            }, 250);
+            }, 500);
 
             // EURUSD Continuous chart plots
             let interval2 = setInterval(function () {
@@ -407,7 +407,7 @@ function startBuildingCharts () {
         // BUY/SELL EVENT LISTENERS - START OF CODE
         const buy1Listener = document.addEventListener('click', event => {
             if (event.target.dataset.id === `graph0-buy`) {
-                console.log(buy(cnt1))
+                console.log('This:', buy(cnt1))
             }
         })
         const sell1Listener = document.addEventListener('click', event => {
