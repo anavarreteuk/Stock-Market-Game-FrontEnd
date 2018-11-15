@@ -466,7 +466,51 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+         const div1 = document.querySelector('div1')
+            setTimeout(function () {
+                div1.remove()
+                
+                
+                const a = document.createElement('div')
+                a.innerHTML =`<div class="table-title">
+                <h3>LeaderBoard</h3>
+                </div>
+                <table class="table-fill">
+                <thead>
+                <tr>
+                <th class="text-left">Name</th>
+                <th class="text-left">Score</th>
+                </tr>
+                </thead>
+                <tbody class="table-hover">
+                <tr>
+                <td class="text-left">Januadsfary</td>
+                <td class="text-left">$ 50,dd000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">February</td>
+                <td class="text-left">$ 10,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">March</td>
+                <td class="text-left">$ 85,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">April</td>
+                <td class="text-left">$ 56,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">May</td>
+                <td class="text-left">$ 98,000.00</td>
+                </tr>
+                </tbody>
+                </table>`
+                document.querySelector('body').appendChild(a)
 
+                
+            }, 60000)
+
+       
         const svgContainer = document.getElementsByClassName('svg-container')
         const containers = [...svgContainer]
         
@@ -483,8 +527,8 @@ const generateBtn = (index) => {
             <br/>
             <button class='sell-btn' data-id='graph${index}-sell'>
                 Sell
-            </button>
-        `;
+            </button>`
 
     return buttonContainer;
 }
+setTimeout(60000)
