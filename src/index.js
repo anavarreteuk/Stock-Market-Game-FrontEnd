@@ -1,8 +1,20 @@
 // FX Rate Functions
 const state = {
-    name:[],
-    score:[],
+
     ticks: [],
+    buys: {
+        GBPUSD: [],
+        EURUSD: [],
+        EURGBP: [],
+        EURJPY: []
+    },
+    sells: {
+        GBPUSD: [],
+        EURUSD: [],
+        EURGBP: [],
+        EURJPY: []
+    },
+    score: 0.0,
     difficulty: 'normal',
     levels: {
         normal: 'GBPUSD,EURUSD,EURGBP,EURJPY'
@@ -58,7 +70,7 @@ const bidAskArrays = {}
 
 // This function creates dynamic objects for our prices, with symbol names and bid/ask prices.
 const constructBidArrays = ticks => {
-    ticks.forEach(tick => {
+    ticks.forEach((tick) => {
 
         if (bidAskArrays[tick.symbol + 'BID'] === undefined) {
             bidAskArrays[tick.symbol + 'BID'] = []
@@ -86,26 +98,40 @@ function startBuildingCharts () {
         Plotly.plot(plotName, plotData, layout,{displayModeBar: false});
     }
 
-    function buy(cnt) {
-        Plotly.extendTraces('graph1', {
+    function buy(cnt, currency) {
+        currency = currency.toUpperCase()
+        const askPrice = bidAskArrays[`${currency}ASK`][cnt]
+        Plotly.extendTraces(currency, {
             y: [
-                [bidAskArrays.GBPUSDASK[cnt]]
+                [askPrice]
             ],
             x: [
-                [new Date(Date(state.ticks[cnt])).getSeconds()]
+                [cnt]
             ]
         }, [2])
+        if (state.buys[currency]) {
+            state.buys[currency].push(askPrice)
+        } else {
+            state.buys[currency] = [askPrice]
+        }
     }
 
-    function sell(cnt) {
-        Plotly.extendTraces('graph1', {
+    function sell(cnt, currency) {
+        currency = currency.toUpperCase()
+        const bidPrice = bidAskArrays[`${currency}BID`][cnt]
+        Plotly.extendTraces(currency, {
             y: [
-                [bidAskArrays.GBPUSDBID[cnt]]
+                [bidPrice]
             ],
             x: [
-                [new Date(Date(state.ticks[cnt])).getSeconds()]
+                [cnt]
             ]
         }, [3])
+        if(state.sells[currency]) {
+            state.sells[currency].push(bidPrice * -1)
+        } else {
+            state.sells[currency] = [bidPrice * -1]
+        }
     }
 
     callPriceDataFromDB()
@@ -152,24 +178,23 @@ function startBuildingCharts () {
 
             // GBPUSD Starting price point
             const data1 = [{
-                    x: [new Date(Date(state.ticks[0])).getSeconds()],
+                    x: [0],
                     y: [GBPUSDbid[0]],
-                    // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).getSeconds()],
+                    x: [0],
                     y: [GBPUSDask[0]],
                     name: 'Ask'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).getSeconds()],
+                    x: [0],
                     y: [GBPUSDask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    x: [new Date(Date(state.ticks[0])).getSeconds()],
+                    x: [0],
                     y: [GBPUSDbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -178,24 +203,23 @@ function startBuildingCharts () {
 
             // EURUSD Starting price point
             const data2 = [{
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURUSDbid[0]],
-                    // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURUSDask[0]],
                     name: 'Ask'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURUSDask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURUSDbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -204,24 +228,23 @@ function startBuildingCharts () {
 
             // EURGBP Starting price point
             const data3 = [{
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURGBPbid[0]],
-                    // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURGBPask[0]],
                     name: 'Ask'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURGBPask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURGBPbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -230,24 +253,23 @@ function startBuildingCharts () {
 
             // EURJPY Starting price point
             const data4 = [{
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURJPYbid[0]],
-                    // We need to make this y axis data dynamic for diff currencies
                     name: 'Bid'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURJPYask[0]],
                     name: 'Ask'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURJPYask[0]],
                     name: 'Buy',
                     mode: 'markers'
                 },
                 {
-                    // x: [new Date(Date(state.ticks[0])).toLocaleTimeString()],
+                    x: [0],
                     y: [EURJPYbid[0]],
                     name: 'Sell',
                     mode: 'markers'
@@ -318,10 +340,10 @@ function startBuildingCharts () {
                 plot_bgcolor: '#FFFFFF'
             };
 
-            createPlot('graph1', data1, layout1, { displayModeBar: false })
-            createPlot('graph2', data2, layout2, { displayModeBar: false })
-            createPlot('graph3', data3, layout3, { displayModeBar: false })
-            createPlot('graph4', data4, layout4, { displayModeBar: false })
+            createPlot('GBPUSD', data1, layout1, { displayModeBar: false })
+            createPlot('EURUSD', data2, layout2, { displayModeBar: false })
+            createPlot('EURGBP', data3, layout3, { displayModeBar: false })
+            createPlot('EURJPY', data4, layout4, { displayModeBar: false })
 
             tester = () => {   
             let cnt1 = 0;
@@ -333,10 +355,10 @@ function startBuildingCharts () {
             console.log(GBPUSDask.length)
             let interval1 = setInterval(() => {
                 // console.log('time: ',time)
-                Plotly.extendTraces('graph1', {
+                Plotly.extendTraces('GBPUSD', {
                     x: [
-                        [new Date(Date(state.ticks[cnt1])).getSeconds()],
-                        [new Date(Date(state.ticks[cnt1])).getSeconds()]
+                        [cnt1],
+                        [cnt1]
                     ],
                     y: [
                         [chartBid1(cnt1)],
@@ -344,17 +366,20 @@ function startBuildingCharts () {
                     ]
                 }, [0, 1])
                 cnt1 += 1
-                if (cnt1 >= GBPUSDask.length) clearInterval(interval1)
-            }, 500);
+                if (cnt1 >= GBPUSDask.length) { 
+                    clearInterval(interval1) 
+                    console.log(getFinalScore())
+                }
+            }, 250);
 
             // EURUSD Continuous chart plots
             let interval2 = setInterval(function () {
 
-                Plotly.extendTraces('graph2', {
-                    // x: [
-                    //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()],
-                    //     [new Date(Date(state.ticks[cnt2])).toLocaleTimeString()]
-                    // ],
+                Plotly.extendTraces('EURUSD', {
+                    x: [
+                        [cnt2],
+                        [cnt2]
+                    ],
                     y: [
                         [chartBid2(cnt2)],
                         [chartAsk2(cnt2)]
@@ -367,11 +392,11 @@ function startBuildingCharts () {
             // EURGBP Continuous chart plots
             let interval3 = setInterval(function () {
 
-                Plotly.extendTraces('graph3', {
-                    // x: [
-                    //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()],
-                    //     [new Date(Date(state.ticks[cnt3])).toLocaleTimeString()]
-                    // ],
+                Plotly.extendTraces('EURGBP', {
+                    x: [
+                        [cnt3],
+                        [cnt3]
+                    ],
                     y: [
                         [chartBid3(cnt3)],
                         [chartAsk3(cnt3)]
@@ -384,11 +409,11 @@ function startBuildingCharts () {
             // EURJPY Continuous chart plots
             let interval4 = setInterval(function () {
 
-                Plotly.extendTraces('graph4', {
-                    // x: [
-                    //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()],
-                    //     [new Date(Date(state.ticks[cnt4])).toLocaleTimeString()]
-                    // ],
+                Plotly.extendTraces('EURJPY', {
+                    x: [
+                        [cnt4],
+                        [cnt4]
+                    ],
                     y: [
                         [chartBid4(cnt4)],
                         [chartAsk4(cnt4)]
@@ -397,22 +422,65 @@ function startBuildingCharts () {
                 cnt4 += 1
                 if (cnt4 >= EURJPYask.length) clearInterval(interval4);
             }, 250);
-         
-        // ######### MORNING NOTES ###############
-        // We cannot call the buy(cnt) function at the moment, it returns an error.
-        // We need to figure out where in the scope our button event listeners will sit.
-        // We also need to calculate the profit/loss once we get the buy/sell working so we can calculate players scores.
-        // Create a login and leaderboard
 
         // BUY/SELL EVENT LISTENERS - START OF CODE
-        const buy1Listener = document.addEventListener('click', event => {
-            if (event.target.dataset.id === `graph0-buy`) {
-                console.log('This:', buy(cnt1))
+        document.addEventListener('click', event => {
+
+            const ccy = 'GBPUSD'
+            if (event.target.dataset.id === `${ccy}-buy`) {
+                buy(cnt1, ccy)
             }
         })
-        const sell1Listener = document.addEventListener('click', event => {
-            if (event.target.dataset.id === `graph0-sell`) {
-                console.log(`${event.target.dataset.id}`)
+        document.addEventListener('click', event => {
+
+            const ccy = 'GBPUSD'
+            if (event.target.dataset.id === `${ccy}-sell`) {
+                sell(cnt1, ccy)
+            }
+        })
+
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURUSD'
+            if (event.target.dataset.id === `${ccy}-buy`) {
+                buy(cnt2, ccy)
+            }
+        })
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURUSD'
+            if (event.target.dataset.id === `${ccy}-sell`) {
+                sell(cnt2, ccy)
+            }
+        })
+
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURGBP'
+            if (event.target.dataset.id === `${ccy}-buy`) {
+                buy(cnt3, ccy)
+            }
+        })
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURGBP'
+            if (event.target.dataset.id === `${ccy}-sell`) {
+                sell(cnt3, ccy)
+            }
+        })
+
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURJPY'
+            if (event.target.dataset.id === `${ccy}-buy`) {
+                buy(cnt4, ccy)
+            }
+        })
+        document.addEventListener('click', event => {
+
+            const ccy = 'EURJPY'
+            if (event.target.dataset.id === `${ccy}-sell`) {
+                sell(cnt4, ccy)
             }
         })
         // ### BUY/SELL EVENT LISTENERS - END OF CODE ###
@@ -478,33 +546,25 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
-         const div1 = document.querySelector('div1')
-            
-            setTimeout(function () {
-                div1.remove()
-                
-                createTable()
-                
 
-                
-            }, 60000)
-        setTimeout(60000)
-       
-        const svgContainer = document.getElementsByClassName('svg-container')
-        const containers = [...svgContainer]
+
+        const containerNodes = document.getElementsByClassName('js-plotly-plot')
+        const containers = [...containerNodes]
+
         
-        containers.forEach((el, index) => el.appendChild(generateBtn(index)))
+        containers.forEach((el) => el.appendChild(generateBtn(el.id)))
     })
 })
 
-const generateBtn = (index) => {
+const generateBtn = (ccy) => {
     const buttonContainer = document.createElement('div')
+    buttonContainer.setAttribute("id", "buttonDiv")
     buttonContainer.innerHTML = `
-            <button class='buy-btn' data-id='graph${index}-buy'>
+            <button class='buy-btn' data-id='${ccy}-buy'>
                 Buy
             </button>
             <br/>
-            <button class='sell-btn' data-id='graph${index}-sell'>
+            <button class='sell-btn' data-id='${ccy}-sell'>
                 Sell
             </button>`
 
@@ -525,6 +585,97 @@ const postNameScore = (name) =>
             
         })
     }).then(resp => resp.json())
+
+
+    return buttonContainer;
+}
+
+
+// END OF GAME CALCULATIONS:
+
+const getFinalScore = () => {
+    
+    // GBPUSD
+    while (state.buys.GBPUSD.length < state.sells.GBPUSD.length) {
+        state.buys.GBPUSD.push(bidAskArrays.GBPUSDASK[bidAskArrays.GBPUSDASK.length - 1])
+    }
+    while (state.sells.GBPUSD.length < state.buys.GBPUSD.length) {
+        state.sells.GBPUSD.push((bidAskArrays.GBPUSDBID[bidAskArrays.GBPUSDBID.length - 1])* -1)
+    }
+
+    let buyTotalGBPUSD = state.buys.GBPUSD.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    let sellTotalGBPUSD = state.sells.GBPUSD.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    const totalGBPUSD = (-(buyTotalGBPUSD + sellTotalGBPUSD)) * 100000
+    console.log(totalGBPUSD)
+
+    // EURUSD
+    while (state.buys.EURUSD.length < state.sells.EURUSD.length) {
+        state.buys.EURUSD.push(bidAskArrays.EURUSDASK[bidAskArrays.EURUSDASK.length - 1])
+    }
+    while (state.sells.EURUSD.length < state.buys.EURUSD.length) {
+        state.sells.EURUSD.push((bidAskArrays.EURUSDBID[bidAskArrays.EURUSDBID.length - 1])* -1)
+    }
+
+    let buyTotalEURUSD = state.buys.EURUSD.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    let sellTotalEURUSD = state.sells.EURUSD.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    const totalEURUSD = (-(buyTotalEURUSD + sellTotalEURUSD)) * 100000
+    console.log(totalEURUSD)
+
+    // EURGBP
+    while (state.buys.EURGBP.length < state.sells.EURGBP.length) {
+        state.buys.EURGBP.push(bidAskArrays.EURGBPASK[bidAskArrays.EURGBPASK.length - 1])
+    }
+    while (state.sells.EURGBP.length < state.buys.EURGBP.length) {
+        state.sells.EURGBP.push((bidAskArrays.EURGBPBID[bidAskArrays.EURGBPBID.length - 1]) * -1)
+    }
+
+    let buyTotalEURGBP = state.buys.EURGBP.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    let sellTotalEURGBP = state.sells.EURGBP.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    const totalEURGBP = (-(buyTotalEURGBP + sellTotalEURGBP)) * 100000
+    console.log(totalEURGBP)
+
+    // EURJPY
+    while (state.buys.EURJPY.length < state.sells.EURJPY.length) {
+        state.buys.EURJPY.push(bidAskArrays.EURJPYASK[bidAskArrays.EURJPYASK.length - 1])
+    }
+    while (state.sells.EURJPY.length < state.buys.EURJPY.length) {
+        state.sells.EURJPY.push((bidAskArrays.EURJPYBID[bidAskArrays.EURJPYBID.length - 1]) * -1)
+    }
+
+    let buyTotalEURJPY = state.buys.EURJPY.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    let sellTotalEURJPY = state.sells.EURJPY.reduce((total, el) => {
+        return total + el
+    }, 0)
+
+    const totalEURJPY = (-(buyTotalEURJPY + sellTotalEURJPY)) * 1000
+    console.log(totalEURJPY)
+
+
+    const grandTotalScore = (totalGBPUSD + totalEURUSD + totalEURGBP + totalEURJPY)
+    state.score = grandTotalScore
+}
+
 
     function createTable () {
     const a = document.createElement('div')
@@ -564,3 +715,4 @@ const postNameScore = (name) =>
     document.querySelector('body').appendChild(a)
     return a
     }
+
