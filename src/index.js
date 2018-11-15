@@ -527,8 +527,7 @@ const generateBtn = (index) => {
             <br/>
             <button class='sell-btn' data-id='graph${index}-sell'>
                 Sell
-            </button>
-        `;
+            </button>`
 
     return buttonContainer;
 }
