@@ -466,9 +466,48 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
-         const body = document.querySelector('body')
+         const div1 = document.querySelector('div1')
             setTimeout(function () {
-                body.remove()
+                div1.remove()
+                
+                
+                const a = document.createElement('div')
+                a.innerHTML =`<div class="table-title">
+                <h3>LeaderBoard</h3>
+                </div>
+                <table class="table-fill">
+                <thead>
+                <tr>
+                <th class="text-left">Name</th>
+                <th class="text-left">Score</th>
+                </tr>
+                </thead>
+                <tbody class="table-hover">
+                <tr>
+                <td class="text-left">Januadsfary</td>
+                <td class="text-left">$ 50,dd000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">February</td>
+                <td class="text-left">$ 10,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">March</td>
+                <td class="text-left">$ 85,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">April</td>
+                <td class="text-left">$ 56,000.00</td>
+                </tr>
+                <tr>
+                <td class="text-left">May</td>
+                <td class="text-left">$ 98,000.00</td>
+                </tr>
+                </tbody>
+                </table>`
+                document.querySelector('body').appendChild(a)
+
+                
             }, 60000)
 
        
@@ -493,5 +532,4 @@ const generateBtn = (index) => {
 
     return buttonContainer;
 }
-
 setTimeout(60000)
