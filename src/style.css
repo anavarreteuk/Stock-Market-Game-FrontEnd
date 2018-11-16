@@ -330,31 +330,47 @@ td.text-right {
   display: inline-block;
   line-height: 40px;
 }
+#myCanvas {
+		display: block;
+	}
+#againButton {
+		font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+		position: absolute;
+		font-size: 1.5em;
+		text-transform: uppercase;
+		padding: 7px 20px;
+		left: 84%;
+		width: 250px;
+		height: 100px;
+		margin-left: -100px;
+		top: 40%;
+		border-radius: 10px;
+		color: white;
+		text-shadow: -1px -1px 1px rgba(0,0,0,0.8);
+		border: 5px solid transparent;
+		border-bottom-color: rgba(0,0,0,0.35);
+		background: hsla(260, 100%, 50%, 1);
+		cursor: pointer;
+    outline: 0 !important;
 
-/* svg {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  transform: rotateY(-180deg) rotateZ(-90deg);
-} */
+		animation: pulse 1s infinite alternate;
+		transition: background 0.4s, border 0.2s, margin 0.2s;
+	}
+	#againButton:hover {
+		background: hsla(220, 100%, 60%, 1);
+		margin-top: -1px;
 
-/* svg circle {
-  stroke-dasharray: 113px;
-  stroke-dashoffset: 0px;
-  stroke-linecap: round;
-  stroke-width: 2px;
-  stroke: white;
-  fill: none;
-  animation: countdown 60s linear infinite forwards;
-} */
-
-/* @keyframes countdown {
-  from {
-    stroke-dashoffset: 0px;
-  }
-  to {
-    stroke-dashoffset: 113px;
-  }
-}  */
+		animation: none;
+	}
+	#againButton:active {
+		border-bottom-width: 0;
+		margin-top: 5px;
+	}
+	@keyframes pulse {
+		0% {
+			margin-top: 0px;
+		}
+		100% {
+			margin-top: 6px; 
+		} 
+	}
