@@ -25,13 +25,13 @@ const state = {
 }
 
 // Call to external API for live FX prices.
-const getURL = () => `https://forex.1forge.com/1.0.3/quotes?pairs=${state.levels[state.difficulty]}&api_key=Zof3WIhvbF6Ed3TGF2hNKaA6rzsXhoKh`
+// const getURL = () => `https://forex.1forge.com/1.0.3/quotes?pairs=${state.levels[state.difficulty]}&api_key=Zof3WIhvbF6Ed3TGF2hNKaA6rzsXhoKh`
 const getTick = () => fetch(getURL()).then(resp => resp.json())
 const saveTick = () => getTick().then(tick => state.ticks.push(...tick))
 
 // // Post request from our JS front end our to our Ruby DB.
 const postData = priceData =>
-    fetch('http://localhost:3000/api/v1/price_datas', {
+    fetch('https://rocky-inlet-93512.herokuapp.com/api/v1/price_datas', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ loop()
 
 // The following are for calling pre-existing stored data from the DB rather than external API.
 const fetchDataFromDB = () =>
-    fetch('http://localhost:3000/api/v1/price_datas')
+    fetch('https://rocky-inlet-93512.herokuapp.com/api/v1/price_datas')
         .then(resp => resp.json())
 
 // This is our empty object which will be filled with our price data.
@@ -691,7 +691,7 @@ function tete() {
     }
 
     const postNameScore = (name,score) =>
-        fetch('http://localhost:3000/api/v1/scores', {
+        fetch('/api/v1/scores', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -744,7 +744,7 @@ function tete() {
     }
 
     const getInfos = () => {
-        fetch('http://localhost:3000/api/v1/scores')
+        fetch('https://rocky-inlet-93512.herokuapp.com/api/v1/scores')
             .then(resp => resp.json())
             .then(infos => renderInfos(infos))
     }
