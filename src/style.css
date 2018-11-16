@@ -302,3 +302,10 @@ td.text-right {
   text-align: right;
 
 }
+
+#againButton{
+  width:50px;
+  position:absolute;
+  left:50%;
+  top: 130%
+}

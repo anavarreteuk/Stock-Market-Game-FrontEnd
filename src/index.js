@@ -544,11 +544,13 @@ submitButton.addEventListener('click', event => {
         const div1 = document.querySelector('div1')
         setTimeout(function () {
             div1.remove()
+            
             postNameScore(state.name[0],state.score)
             
-             createTable()
+            createTable()
+            
             getInfos()
-            }, 60000)
+        }, 60000)
         setTimeout(60000)
 
         const containerNodes = document.getElementsByClassName('js-plotly-plot')
@@ -707,8 +709,9 @@ const renderInfo = (info) =>{
 const renderInfos = (infos) => {
     infos.forEach(info => {
         renderInfo(info)
-    });
-}
+         
+    })
+againButton()}
 
 const getInfos = () => {
     fetch('http://localhost:3000/api/v1/scores')
@@ -716,9 +719,10 @@ const getInfos = () => {
         .then(infos => renderInfos(infos))
 }
 
+const againButton = () => {
+   let a = document.createElement('button')
+   a.setAttribute('id', 'againButton')
+   let b = document.querySelector('#holder')
+    b.appendChild(a)
+}
 
-// const resetTable = () => {
-//     tableEL.innerHTML = ''
-//     dogForm.reset()
-//     getDogs()
-// }
