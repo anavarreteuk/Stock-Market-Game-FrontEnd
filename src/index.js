@@ -495,7 +495,7 @@ function tete() {
 // ### END OF CHART CODE ###
 
 // INTRO PAGE AND NAME SUBMISSION FORM.
-const playAgainFunction = () => {
+
     const formDiv = document.createElement('div')
     formDiv.setAttribute('id', 'FormDiv')
     formDiv.innerHTML = `
@@ -752,30 +752,17 @@ const playAgainFunction = () => {
     const againButton = () => {
     let a = document.createElement('button')
     a.setAttribute('id', 'againButton')
+    a.innerText = `Play again`
     let b = document.querySelector('#holder')
         b.appendChild(a)
     }
-}
+
 const playAgain = () =>{
     const againBttn = document.getElementById('againButton')
     againBttn.addEventListener('click', (event) => {
-    const bodyagain = document.getElementById('body1')
-        bodyagain.innerHTML = ``
-        bodyagain.innerHTML =`<div1>
-
-    <div class="grid-container">
-        <div class="grid-item" id="GBPUSD"></div>
-        <div class="grid-item" id="EURUSD"></div>
-        <div class="grid-item" id="EURGBP"></div>
-        <div class="grid-item" id="EURJPY"></div>
-    </div>
-    </div1>
-    <div id="holder">
-        <div id='theblock'>
-         </div>
-        </div>`
-    playAgainFunction()})
+        location.reload()
+    })
     
     }
 
-    playAgainFunction()
+    
