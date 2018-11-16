@@ -540,16 +540,40 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+       
+         let clockThing = () => {
+        let clockCounter = document.createElement('div')
+        clockCounter.innerHTML = ` 
+            <div id = "countdown">
+                <div id="countdown-number"></div>
+                <svg>
+                    
+                </svg>
+            </div >`
+            document.getElementById('holder').appendChild(clockCounter)
+        var countdownNumberEl = document.getElementById('countdown-number');
+        var countdown = 60;
+
+        countdownNumberEl.textContent = countdown;
+
+        setInterval(function () {
+            countdown = --countdown <= 0 ? 60 : countdown;
+
+            countdownNumberEl.textContent = countdown;
+        }, 1000);}
+        clockThing()
+
+            const div1 = document.querySelector('div1')
         
-        const div1 = document.querySelector('div1')
         setTimeout(function () {
             div1.remove()
-            
+
+            document.getElementById('countdown').remove()
             postNameScore(state.name[0],state.score)
-            
-            createTable()
-            
-            getInfos()
+            .then( () => {
+                createTable()
+                getInfos()
+            })
         }, 60000)
         setTimeout(60000)
 
@@ -700,7 +724,7 @@ const renderInfo = (info) =>{
     const newTr = document.createElement('tr')
     newTr.innerHTML = `
     <td class="text-left">${info.username}</td>
-    <td class="text-left">${info.point}</td>
+    <td class="text-left">${Math.round(info.point)}</td>
     `
     placeAppend = document.querySelector('#lol')
     placeAppend.appendChild(newTr)
@@ -711,7 +735,8 @@ const renderInfos = (infos) => {
         renderInfo(info)
          
     })
-againButton()}
+    againButton()
+}
 
 const getInfos = () => {
     fetch('http://localhost:3000/api/v1/scores')
