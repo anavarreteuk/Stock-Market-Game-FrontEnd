@@ -164,11 +164,12 @@ html, body{background : rgb(53, 93, 138); font-family : Roboto; height: 100%; wi
   font-size: 11pt;
   left: 1090px;
   bottom: 40px;
-=======
+}
+
 
 
 div.table-title {
-   display: block;
+  display: block;
   margin: auto;
   max-width: 600px;
   padding:5px;
@@ -300,4 +301,11 @@ td.text-center {
 td.text-right {
   text-align: right;
 
+}
+
+#againButton{
+  width:50px;
+  position:absolute;
+  left:50%;
+  top: 130%
 }

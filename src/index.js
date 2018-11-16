@@ -13,7 +13,8 @@ const state = {
         EURGBP: [],
         EURJPY: []
     },
-    score: 0.0,
+    name:[],
+    score:0,
     difficulty: 'normal',
     levels: {
         normal: 'GBPUSD,EURUSD,EURGBP,EURJPY'
@@ -25,7 +26,7 @@ const getURL = () => `https://forex.1forge.com/1.0.3/quotes?pairs=${state.levels
 const getTick = () => fetch(getURL()).then(resp => resp.json())
 const saveTick = () => getTick().then(tick => state.ticks.push(...tick))
 
-// Post request from our JS front end our to our Ruby DB.
+// // Post request from our JS front end our to our Ruby DB.
 const postData = priceData =>
     fetch('http://localhost:3000/api/v1/price_datas', {
         method: 'POST',
@@ -511,7 +512,7 @@ formDiv.innerHTML = `
     <form id='startForm'>
         <br>
             <p>Please Insert Your Name:</p>
-            <input type="text" name="firstname">
+            <input id='name' type="text" name="firstname">
         <br>
     </form>
     <button id='submitButton'>submit</button>`
@@ -520,6 +521,10 @@ document.body.appendChild(formDiv)
 
 const submitButton = document.getElementById('submitButton')
 submitButton.addEventListener('click', event => {
+
+    // Posting the name and score
+    let startFormNameValue = document.querySelector('#name').value
+    state.name.push(startFormNameValue)
 
     tete()
     const readyButton = document.getElementById('holder')
@@ -535,6 +540,18 @@ submitButton.addEventListener('click', event => {
     startButton.addEventListener('click', event => {
         tester()
         startButton.remove()
+        
+        const div1 = document.querySelector('div1')
+        setTimeout(function () {
+            div1.remove()
+            
+            postNameScore(state.name[0],state.score)
+            
+            createTable()
+            
+            getInfos()
+        }, 60000)
+        setTimeout(60000)
 
         const containerNodes = document.getElementsByClassName('js-plotly-plot')
         const containers = [...containerNodes]
@@ -643,5 +660,69 @@ const getFinalScore = () => {
 
     const grandTotalScore = (totalGBPUSD + totalEURUSD + totalEURGBP + totalEURJPY)
     state.score = grandTotalScore
+}
+
+const postNameScore = (name,score) =>
+    fetch('http://localhost:3000/api/v1/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            username: name,
+            point: score
+        })
+    }).then(resp => resp.json())
+
+
+    function createTable() {
+    const a = document.createElement('div')
+    a.innerHTML = `<div class="table-title">
+    <h3>LeaderBoard</h3>
+    </div>
+    <table class="table-fill">
+    <thead>
+    <tr>
+    <th class="text-left">Name</th>
+    <th class="text-left">Score</th>
+    </tr>
+    </thead>
+    <tbody id ="lol" class="table-hover">
+    </tbody>
+    </table>`
+    document.querySelector('#holder').appendChild(a)
+    return a
+  
+}
+
+const renderInfo = (info) =>{
+    const newTr = document.createElement('tr')
+    newTr.innerHTML = `
+    <td class="text-left">${info.username}</td>
+    <td class="text-left">${info.point}</td>
+    `
+    placeAppend = document.querySelector('#lol')
+    placeAppend.appendChild(newTr)
+}
+
+const renderInfos = (infos) => {
+    infos.forEach(info => {
+        renderInfo(info)
+         
+    })
+againButton()}
+
+const getInfos = () => {
+    fetch('http://localhost:3000/api/v1/scores')
+        .then(resp => resp.json())
+        .then(infos => renderInfos(infos))
+}
+
+const againButton = () => {
+   let a = document.createElement('button')
+   a.setAttribute('id', 'againButton')
+   let b = document.querySelector('#holder')
+    b.appendChild(a)
 }
 
