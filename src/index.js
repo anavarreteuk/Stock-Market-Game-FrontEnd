@@ -25,7 +25,7 @@ const state = {
 }
 
 // Call to external API for live FX prices.
-// const getURL = () => `https://forex.1forge.com/1.0.3/quotes?pairs=${state.levels[state.difficulty]}&api_key=Zof3WIhvbF6Ed3TGF2hNKaA6rzsXhoKh`
+const getURL = () => `https://forex.1forge.com/1.0.3/quotes?pairs=${state.levels[state.difficulty]}&api_key=Zof3WIhvbF6Ed3TGF2hNKaA6rzsXhoKh`
 const getTick = () => fetch(getURL()).then(resp => resp.json())
 const saveTick = () => getTick().then(tick => state.ticks.push(...tick))
 
