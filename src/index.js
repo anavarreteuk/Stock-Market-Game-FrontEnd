@@ -525,7 +525,7 @@ function tete() {
 
     const submitButton = document.getElementById('submitButton')
     submitButton.addEventListener('click', event => {
-
+        
         // Posting the name and score
         let startFormNameValue = document.querySelector('#name').value
         state.name.push(startFormNameValue)
