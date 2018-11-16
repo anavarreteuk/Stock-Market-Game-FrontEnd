@@ -1,3 +1,6 @@
+// start game
+
+
 // FX Rate Functions
 const state = {
     ticks: [],
@@ -492,262 +495,287 @@ function tete() {
 // ### END OF CHART CODE ###
 
 // INTRO PAGE AND NAME SUBMISSION FORM.
-const formDiv = document.createElement('div')
-formDiv.setAttribute('id', 'FormDiv')
-formDiv.innerHTML = `
-    <h1 id='firstText'>
-    FX TRADER 
-    </h1>
-    <h3>
-        Welcome to our FX trading game.
-    </h3>
-    <h4>
-        <p>You have 1 minute to make as much money as you can buying and selling currencies.</p>
-        <p>There are 4 currency crosses to choose from, GBP/USD, EUR/USD, EUR/GBP and EUR/JPY.</p>
-        <p>See how well you can do. At the end you're name will be added to the leaderboard... Good Luck!</p>
-    </h4>
-    <h5>
-        <em>Created by Adrian N and Oliver DS.</em>
-    </h5>
-    <form id='startForm'>
-        <br>
-            <p>Please Insert Your Name:</p>
-            <input id='name' type="text" name="firstname">
-        <br>
-    </form>
-    <button id='submitButton'>submit</button>`
+const playAgainFunction = () => {
+    const formDiv = document.createElement('div')
+    formDiv.setAttribute('id', 'FormDiv')
+    formDiv.innerHTML = `
+        <h1 id='firstText'>
+        FX TRADER 
+        </h1>
+        <h3>
+            Welcome to our FX trading game.
+        </h3>
+        <h4>
+            <p>You have 1 minute to make as much money as you can buying and selling currencies.</p>
+            <p>There are 4 currency crosses to choose from, GBP/USD, EUR/USD, EUR/GBP and EUR/JPY.</p>
+            <p>See how well you can do. At the end you're name will be added to the leaderboard... Good Luck!</p>
+        </h4>
+        <h5>
+            <em>Created by Adrian N and Oliver DS.</em>
+        </h5>
+        <form id='startForm'>
+            <br>
+                <p>Please Insert Your Name:</p>
+                <input id='name' type="text" name="firstname">
+            <br>
+        </form>
+        <button id='submitButton'>submit</button>`
 
-document.body.appendChild(formDiv)
+    document.body.appendChild(formDiv)
 
-const submitButton = document.getElementById('submitButton')
-submitButton.addEventListener('click', event => {
+    const submitButton = document.getElementById('submitButton')
+    submitButton.addEventListener('click', event => {
 
-    // Posting the name and score
-    let startFormNameValue = document.querySelector('#name').value
-    state.name.push(startFormNameValue)
+        // Posting the name and score
+        let startFormNameValue = document.querySelector('#name').value
+        state.name.push(startFormNameValue)
 
-    tete()
-    const readyButton = document.getElementById('holder')
-    readyButton.innerHTML = `<div id = "startButton" class="button">
-        <p id="startButton" class="btnText">READY?</p>
-        <div id="startButton" class="btnTwo">
-            <p id="startButton" class="btnText2">GO!</p>
-        </div>
-        </div >`
-    document.body.appendChild(readyButton)
-    formDiv.remove()
-    const startButton = document.getElementById("startButton")
-    startButton.addEventListener('click', event => {
-        tester()
-        startButton.remove()
-       
-         let clockThing = () => {
-        let clockCounter = document.createElement('div')
-        clockCounter.innerHTML = ` 
-            <div id = "countdown">
-                <div id="countdown-number"></div>
-                <svg>
-                    
-                </svg>
+        tete()
+        const readyButton = document.getElementById('holder')
+        readyButton.innerHTML = `<div id = "startButton" class="button">
+            <p id="startButton" class="btnText">READY?</p>
+            <div id="startButton" class="btnTwo">
+                <p id="startButton" class="btnText2">GO!</p>
+            </div>
             </div >`
-            document.getElementById('holder').appendChild(clockCounter)
-        var countdownNumberEl = document.getElementById('countdown-number');
-        var countdown = 60;
-
-        countdownNumberEl.textContent = countdown;
-
-        setInterval(function () {
-            countdown = --countdown <= 0 ? 60 : countdown;
+        document.body.appendChild(readyButton)
+        formDiv.remove()
+        const startButton = document.getElementById("startButton")
+        startButton.addEventListener('click', event => {
+            tester()
+            startButton.remove()
+        
+            let clockThing = () => {
+            let clockCounter = document.createElement('div')
+            clockCounter.innerHTML = ` 
+                <div id = "countdown">
+                    <div id="countdown-number"></div>
+                    <svg>
+                        
+                    </svg>
+                </div >`
+                document.getElementById('holder').appendChild(clockCounter)
+            var countdownNumberEl = document.getElementById('countdown-number');
+            var countdown = 60;
 
             countdownNumberEl.textContent = countdown;
-        }, 1000);}
-        clockThing()
 
-            const div1 = document.querySelector('div1')
-        
-        setTimeout(function () {
-            div1.remove()
+            setInterval(function () {
+                countdown = --countdown <= 0 ? 60 : countdown;
 
-            document.getElementById('countdown').remove()
-            postNameScore(state.name[0],state.score)
-            .then( () => {
-                createTable()
-                getInfos()
-            })
-        }, 60000)
-        setTimeout(60000)
+                countdownNumberEl.textContent = countdown;
+            }, 1000);}
+            clockThing()
 
-        const containerNodes = document.getElementsByClassName('js-plotly-plot')
-        const containers = [...containerNodes]
+                const div1 = document.querySelector('div1')
+            
+            setTimeout(function () {
+                div1.remove()
 
-        containers.forEach((el) => el.appendChild(generateBtn(el.id)))
-    })
-})
+                document.getElementById('countdown').remove()
+                postNameScore(state.name[0],state.score)
+                .then( () => {
+                    createTable()
+                    getInfos()
+                })
+            }, 60000)
+            setTimeout(60000)
 
-const generateBtn = (ccy) => {
-    const buttonContainer = document.createElement('div')
-    buttonContainer.setAttribute("id", "buttonDiv")
-    buttonContainer.innerHTML = `
-            <button class='buy-btn' data-id='${ccy}-buy'>
-                Buy
-            </button>
-            <br/>
-            <button class='sell-btn' data-id='${ccy}-sell'>
-                Sell
-            </button>
-        `;
+            const containerNodes = document.getElementsByClassName('js-plotly-plot')
+            const containers = [...containerNodes]
 
-    return buttonContainer;
-}
-
-
-// END OF GAME CALCULATIONS:
-
-const getFinalScore = () => {
-
-    // GBPUSD
-    while (state.buys.GBPUSD.length < state.sells.GBPUSD.length) {
-        state.buys.GBPUSD.push(bidAskArrays.GBPUSDASK[bidAskArrays.GBPUSDASK.length - 1])
-    }
-    while (state.sells.GBPUSD.length < state.buys.GBPUSD.length) {
-        state.sells.GBPUSD.push((bidAskArrays.GBPUSDBID[bidAskArrays.GBPUSDBID.length - 1]) * -1)
-    }
-
-    let buyTotalGBPUSD = state.buys.GBPUSD.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    let sellTotalGBPUSD = state.sells.GBPUSD.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    const totalGBPUSD = (-(buyTotalGBPUSD + sellTotalGBPUSD)) * 100000
-    console.log(totalGBPUSD)
-
-    // EURUSD
-    while (state.buys.EURUSD.length < state.sells.EURUSD.length) {
-        state.buys.EURUSD.push(bidAskArrays.EURUSDASK[bidAskArrays.EURUSDASK.length - 1])
-    }
-    while (state.sells.EURUSD.length < state.buys.EURUSD.length) {
-        state.sells.EURUSD.push((bidAskArrays.EURUSDBID[bidAskArrays.EURUSDBID.length - 1]) * -1)
-    }
-
-    let buyTotalEURUSD = state.buys.EURUSD.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    let sellTotalEURUSD = state.sells.EURUSD.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    const totalEURUSD = (-(buyTotalEURUSD + sellTotalEURUSD)) * 100000
-    console.log(totalEURUSD)
-
-    // EURGBP
-    while (state.buys.EURGBP.length < state.sells.EURGBP.length) {
-        state.buys.EURGBP.push(bidAskArrays.EURGBPASK[bidAskArrays.EURGBPASK.length - 1])
-    }
-    while (state.sells.EURGBP.length < state.buys.EURGBP.length) {
-        state.sells.EURGBP.push((bidAskArrays.EURGBPBID[bidAskArrays.EURGBPBID.length - 1]) * -1)
-    }
-
-    let buyTotalEURGBP = state.buys.EURGBP.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    let sellTotalEURGBP = state.sells.EURGBP.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    const totalEURGBP = (-(buyTotalEURGBP + sellTotalEURGBP)) * 100000
-    console.log(totalEURGBP)
-
-    // EURJPY
-    while (state.buys.EURJPY.length < state.sells.EURJPY.length) {
-        state.buys.EURJPY.push(bidAskArrays.EURJPYASK[bidAskArrays.EURJPYASK.length - 1])
-    }
-    while (state.sells.EURJPY.length < state.buys.EURJPY.length) {
-        state.sells.EURJPY.push((bidAskArrays.EURJPYBID[bidAskArrays.EURJPYBID.length - 1]) * -1)
-    }
-
-    let buyTotalEURJPY = state.buys.EURJPY.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    let sellTotalEURJPY = state.sells.EURJPY.reduce((total, el) => {
-        return total + el
-    }, 0)
-
-    const totalEURJPY = (-(buyTotalEURJPY + sellTotalEURJPY)) * 1000
-    console.log(totalEURJPY)
-
-
-    const grandTotalScore = (totalGBPUSD + totalEURUSD + totalEURGBP + totalEURJPY)
-    state.score = grandTotalScore
-}
-
-const postNameScore = (name,score) =>
-    fetch('http://localhost:3000/api/v1/scores', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            username: name,
-            point: score
+            containers.forEach((el) => el.appendChild(generateBtn(el.id)))
         })
-    }).then(resp => resp.json())
-
-
-    function createTable() {
-    const a = document.createElement('div')
-    a.innerHTML = `<div class="table-title">
-    <h3>LeaderBoard</h3>
-    </div>
-    <table class="table-fill">
-    <thead>
-    <tr>
-    <th class="text-left">Name</th>
-    <th class="text-left">Score</th>
-    </tr>
-    </thead>
-    <tbody id ="lol" class="table-hover">
-    </tbody>
-    </table>`
-    document.querySelector('#holder').appendChild(a)
-    return a
-  
-}
-
-const renderInfo = (info) =>{
-    const newTr = document.createElement('tr')
-    newTr.innerHTML = `
-    <td class="text-left">${info.username}</td>
-    <td class="text-left">${Math.round(info.point)}</td>
-    `
-    placeAppend = document.querySelector('#lol')
-    placeAppend.appendChild(newTr)
-}
-
-const renderInfos = (infos) => {
-    infos.forEach(info => {
-        renderInfo(info)
-         
     })
-    againButton()
-}
 
-const getInfos = () => {
-    fetch('http://localhost:3000/api/v1/scores')
-        .then(resp => resp.json())
-        .then(infos => renderInfos(infos))
-}
+    const generateBtn = (ccy) => {
+        const buttonContainer = document.createElement('div')
+        buttonContainer.setAttribute("id", "buttonDiv")
+        buttonContainer.innerHTML = `
+                <button class='buy-btn' data-id='${ccy}-buy'>
+                    Buy
+                </button>
+                <br/>
+                <button class='sell-btn' data-id='${ccy}-sell'>
+                    Sell
+                </button>
+            `;
 
-const againButton = () => {
-   let a = document.createElement('button')
-   a.setAttribute('id', 'againButton')
-   let b = document.querySelector('#holder')
-    b.appendChild(a)
-}
+        return buttonContainer;
+    }
 
+
+    // END OF GAME CALCULATIONS:
+
+    const getFinalScore = () => {
+
+        // GBPUSD
+        while (state.buys.GBPUSD.length < state.sells.GBPUSD.length) {
+            state.buys.GBPUSD.push(bidAskArrays.GBPUSDASK[bidAskArrays.GBPUSDASK.length - 1])
+        }
+        while (state.sells.GBPUSD.length < state.buys.GBPUSD.length) {
+            state.sells.GBPUSD.push((bidAskArrays.GBPUSDBID[bidAskArrays.GBPUSDBID.length - 1]) * -1)
+        }
+
+        let buyTotalGBPUSD = state.buys.GBPUSD.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        let sellTotalGBPUSD = state.sells.GBPUSD.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        const totalGBPUSD = (-(buyTotalGBPUSD + sellTotalGBPUSD)) * 100000
+        console.log(totalGBPUSD)
+
+        // EURUSD
+        while (state.buys.EURUSD.length < state.sells.EURUSD.length) {
+            state.buys.EURUSD.push(bidAskArrays.EURUSDASK[bidAskArrays.EURUSDASK.length - 1])
+        }
+        while (state.sells.EURUSD.length < state.buys.EURUSD.length) {
+            state.sells.EURUSD.push((bidAskArrays.EURUSDBID[bidAskArrays.EURUSDBID.length - 1]) * -1)
+        }
+
+        let buyTotalEURUSD = state.buys.EURUSD.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        let sellTotalEURUSD = state.sells.EURUSD.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        const totalEURUSD = (-(buyTotalEURUSD + sellTotalEURUSD)) * 100000
+        console.log(totalEURUSD)
+
+        // EURGBP
+        while (state.buys.EURGBP.length < state.sells.EURGBP.length) {
+            state.buys.EURGBP.push(bidAskArrays.EURGBPASK[bidAskArrays.EURGBPASK.length - 1])
+        }
+        while (state.sells.EURGBP.length < state.buys.EURGBP.length) {
+            state.sells.EURGBP.push((bidAskArrays.EURGBPBID[bidAskArrays.EURGBPBID.length - 1]) * -1)
+        }
+
+        let buyTotalEURGBP = state.buys.EURGBP.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        let sellTotalEURGBP = state.sells.EURGBP.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        const totalEURGBP = (-(buyTotalEURGBP + sellTotalEURGBP)) * 100000
+        console.log(totalEURGBP)
+
+        // EURJPY
+        while (state.buys.EURJPY.length < state.sells.EURJPY.length) {
+            state.buys.EURJPY.push(bidAskArrays.EURJPYASK[bidAskArrays.EURJPYASK.length - 1])
+        }
+        while (state.sells.EURJPY.length < state.buys.EURJPY.length) {
+            state.sells.EURJPY.push((bidAskArrays.EURJPYBID[bidAskArrays.EURJPYBID.length - 1]) * -1)
+        }
+
+        let buyTotalEURJPY = state.buys.EURJPY.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        let sellTotalEURJPY = state.sells.EURJPY.reduce((total, el) => {
+            return total + el
+        }, 0)
+
+        const totalEURJPY = (-(buyTotalEURJPY + sellTotalEURJPY)) * 1000
+        console.log(totalEURJPY)
+
+
+        const grandTotalScore = (totalGBPUSD + totalEURUSD + totalEURGBP + totalEURJPY)
+        state.score = grandTotalScore
+    }
+
+    const postNameScore = (name,score) =>
+        fetch('http://localhost:3000/api/v1/scores', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                username: name,
+                point: score
+            })
+        }).then(resp => resp.json())
+
+
+        function createTable() {
+        const a = document.createElement('div')
+        a.innerHTML = `<div class="table-title">
+        <h3>LeaderBoard</h3>
+        </div>
+        <table class="table-fill">
+        <thead>
+        <tr>
+        <th class="text-left">Name</th>
+        <th class="text-left">Score</th>
+        </tr>
+        </thead>
+        <tbody id ="lol" class="table-hover">
+        </tbody>
+        </table>`
+        document.querySelector('#holder').appendChild(a)
+        return a
+    
+    }
+
+    const renderInfo = (info) =>{
+        const newTr = document.createElement('tr')
+        newTr.innerHTML = `
+        <td class="text-left">${info.username}</td>
+        <td class="text-left">${Math.round(info.point)}</td>
+        `
+        placeAppend = document.querySelector('#lol')
+        placeAppend.appendChild(newTr)
+    }
+
+    const renderInfos = (infos) => {
+        infos.forEach(info => {
+            renderInfo(info)
+            
+        })
+        againButton()
+        playAgain()
+    }
+
+    const getInfos = () => {
+        fetch('http://localhost:3000/api/v1/scores')
+            .then(resp => resp.json())
+            .then(infos => renderInfos(infos))
+    }
+
+    const againButton = () => {
+    let a = document.createElement('button')
+    a.setAttribute('id', 'againButton')
+    let b = document.querySelector('#holder')
+        b.appendChild(a)
+    }
+}
+const playAgain = () =>{
+    const againBttn = document.getElementById('againButton')
+    againBttn.addEventListener('click', (event) => {
+    const bodyagain = document.getElementById('body1')
+        bodyagain.innerHTML = ``
+        bodyagain.innerHTML =`<div1>
+
+    <div class="grid-container">
+        <div class="grid-item" id="GBPUSD"></div>
+        <div class="grid-item" id="EURUSD"></div>
+        <div class="grid-item" id="EURGBP"></div>
+        <div class="grid-item" id="EURJPY"></div>
+    </div>
+    </div1>
+    <div id="holder">
+        <div id='theblock'>
+         </div>
+        </div>`
+    playAgainFunction()})
+    
+    }
+
+    playAgainFunction()
