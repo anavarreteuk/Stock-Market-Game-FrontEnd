@@ -691,7 +691,7 @@ function tete() {
     }
 
     const postNameScore = (name,score) =>
-        fetch('/api/v1/scores', {
+        fetch('https://rocky-inlet-93512.herokuapp.com/api/v1/scores', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
